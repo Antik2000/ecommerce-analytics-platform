@@ -1,0 +1,10 @@
+pandas==2.2.3
+numpy==2.2.6
+faker==37.3.0
+google-cloud-bigquery==3.41.0
+pyarrow
+streamlit
+openai
+python-dotenv
+db-dtypes
+google-cloud-bigquery-storage
