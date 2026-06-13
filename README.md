@@ -1,5 +1,10 @@
-# ecommerce-analytics-platform
 # Ecommerce Analytics Platform
+## Live Demo
+
+🔗 https://ecommerce-analytics-platform-8j4dsvxex64fbefjtascx4.streamlit.app/
+
+---
+
 
 ## Overview
 
