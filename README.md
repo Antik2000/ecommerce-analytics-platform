@@ -1,3 +1,4 @@
+# ecommerce-analytics-platform
 # Ecommerce Analytics Platform
 
 ## Overview

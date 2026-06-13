@@ -1,9 +1,20 @@
 import os
 from dotenv import load_dotenv
 
+try:
+    import streamlit as st
+except ImportError:
+    st = None
+
 load_dotenv()
 
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+if st and hasattr(st, "secrets"):
+    OPENAI_API_KEY = st.secrets.get(
+        "OPENAI_API_KEY",
+        os.getenv("OPENAI_API_KEY")
+    )
+else:
+    OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 PROJECT_ID = "studied-slate-499209-e8"
 
