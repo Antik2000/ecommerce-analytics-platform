@@ -3,11 +3,9 @@ import pandas as pd
 
 from config import PROJECT_ID
 
-
 client = bigquery.Client(
     project=PROJECT_ID
 )
-
 
 def execute_query(sql: str) -> pd.DataFrame:
     """
