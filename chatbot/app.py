@@ -13,6 +13,30 @@ st.set_page_config(
 
 st.title("📊 Ecommerce Analytics Assistant")
 
+with st.expander(
+    "🏗️ View Data Platform Architecture",
+    expanded=False
+):
+    st.markdown(
+        """
+        ```text
+        CSV Source
+            ↓
+        Raw Layer
+            ↓
+        Staging Layer
+            ↓
+        Mart Layer
+            ↓
+        Data Quality Framework
+            ↓
+        Validation Framework
+            ↓
+        AI Analytics Assistant
+        ```
+        """
+    )
+
 st.markdown(
     """
 Ask business questions about sales performance, stores, customers, and product categories.
@@ -37,11 +61,54 @@ if st.button("Generate Insights"):
 
     try:
 
-        with st.spinner("Analyzing data..."):
+        with st.status(
+            "🚀 Executing Analytics Pipeline...",
+            expanded=True
+        ) as status:
+
+            st.write(
+                "✅ Step 1: Business Question Received"
+            )
+
+            st.info(question)
+
+            st.write(
+                "🟡 Step 2: Generating SQL using GPT-5..."
+            )
 
             sql = generate_sql(question)
 
+            st.write(
+                "✅ SQL Generated Successfully"
+            )
+
+            st.write(
+                "🟡 Step 3: Executing Query on BigQuery..."
+            )
+
             df = execute_query(sql)
+
+            st.write(
+                f"✅ Query Executed Successfully ({len(df)} rows returned)"
+            )
+
+            st.write(
+                "🟡 Step 4: Generating Business Insight..."
+            )
+
+            answer = generate_response(
+                question,
+                df
+            )
+
+            st.write(
+                "✅ Business Insight Generated"
+            )
+
+            status.update(
+                label="🎉 Pipeline Execution Completed",
+                state="complete"
+            )
 
         if df.empty:
 
@@ -51,36 +118,52 @@ if st.button("Generate Insights"):
 
         else:
 
-            answer = generate_response(
-                question,
-                df
+            st.success(
+                "Analysis completed successfully."
             )
 
-            st.success("Analysis completed successfully.")
-
-            col1, col2 = st.columns([2, 1])
+            col1, col2 = st.columns(
+                [2, 1]
+            )
 
             with col1:
 
-                st.subheader("💡 Business Insight")
-                st.write(answer)
+                st.subheader(
+                    "💡 Business Insight"
+                )
+
+                st.write(
+                    answer
+                )
 
             with col2:
 
-                st.subheader("📈 Records Returned")
+                st.subheader(
+                    "📈 Records Returned"
+                )
+
                 st.metric(
                     label="Rows",
                     value=len(df)
                 )
 
-            st.subheader("📝 Generated SQL")
-            st.code(sql, language="sql")
+            with st.expander(
+                "📝 Generated SQL",
+                expanded=False
+            ):
+                st.code(
+                    sql,
+                    language="sql"
+                )
 
-            st.subheader("📊 Query Results")
-            st.dataframe(
-                df,
-                use_container_width=True
-            )
+            with st.expander(
+                "📊 Query Results",
+                expanded=False
+            ):
+                st.dataframe(
+                    df,
+                    use_container_width=True
+                )
 
     except Exception as e:
 
