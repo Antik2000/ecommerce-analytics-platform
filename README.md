@@ -1,24 +1,28 @@
 # Ecommerce Analytics Platform
+
 ## Live Demo
 
-🔗 https://ecommerce-analytics-platform-8j4dsvxex64fbefjtascx4.streamlit.app/
+🚀 Streamlit Application
+
+https://ecommerce-analytics-platform-8j4dsvxex64fbefjtascx4.streamlit.app/
 
 ---
 
-
 ## Overview
 
-The objective of this project was to design and implement an end-to-end analytics solution for an e-commerce company facing challenges with manual data ingestion, poor data quality, and limited self-service analytics capabilities.
+This project demonstrates an end-to-end analytics engineering solution built for an e-commerce company experiencing challenges with manual data ingestion, poor data quality, and limited self-service analytics capabilities.
 
 The solution includes:
 
-- Automated data ingestion pipeline
-- Data warehouse design using BigQuery
-- Data quality validation framework
-- Data validation and reconciliation checks
-- Business-ready analytics mart
-- Production-style orchestration
-- Foundation for an AI-powered analytics chatbot
+- Automated data pipeline
+- BigQuery data warehouse
+- Data quality framework
+- Validation and reconciliation framework
+- Analytics-ready reporting layer
+- AI-powered analytics chatbot
+- Streamlit Cloud deployment
+
+The platform enables non-technical users to ask business questions in plain English and receive data-driven answers directly from the warehouse.
 
 ---
 
@@ -61,6 +65,27 @@ Generated Orders CSV
                           │
                           ▼
                  Analytics Ready Data
+                          │
+                          ▼
+                    OpenAI GPT
+                          │
+                          ▼
+                  SQL Generation
+                          │
+                          ▼
+                     BigQuery
+                          │
+                          ▼
+                   Query Results
+                          │
+                          ▼
+                    OpenAI GPT
+                          │
+                          ▼
+              Natural Language Response
+                          │
+                          ▼
+                    Streamlit UI
 ```
 
 ---
@@ -73,10 +98,38 @@ Generated Orders CSV
 | Data Processing | Pandas |
 | Data Warehouse | BigQuery |
 | Transformations | SQL |
-| Orchestration | Python |
 | Data Validation | SQL + Python |
-| AI Layer (Planned) | LLM + BigQuery |
+| AI Layer | OpenAI GPT |
+| Frontend | Streamlit |
+| Deployment | Streamlit Cloud |
 | Cloud Platform | GCP |
+
+---
+
+# Key Features
+
+### Data Engineering
+
+- Automated data ingestion workflow
+- Layered warehouse architecture
+- Data quality monitoring
+- Validation and reconciliation framework
+- Analytics-ready reporting layer
+
+### AI Analytics Chatbot
+
+- Natural language querying
+- OpenAI-powered SQL generation
+- BigQuery query execution
+- Natural language response generation
+- Streamlit-based user interface
+
+### Deployment
+
+- Cloud-hosted application
+- Secure API key management
+- BigQuery integration
+- End-to-end working prototype
 
 ---
 
@@ -86,14 +139,14 @@ A realistic e-commerce dataset was generated to simulate approximately three yea
 
 Dataset characteristics:
 
-- 10,050 total records
+- 10,050 records
 - 5 online stores
 - Multiple product categories
 - Customer information
-- Order information
-- Revenue calculations
+- Order transactions
+- Revenue metrics
 
-Intentional data quality issues were injected into the dataset:
+Intentional data quality issues were injected:
 
 - Duplicate orders
 - Missing order dates
@@ -108,8 +161,6 @@ These issues were later detected and handled by the data quality framework.
 
 # Data Warehouse Design
 
-The warehouse follows a layered architecture.
-
 ## Raw Layer
 
 Table:
@@ -121,7 +172,7 @@ raw_orders
 Purpose:
 
 - Stores source data exactly as received
-- Serves as immutable source of truth
+- Immutable source of truth
 - Supports auditing and troubleshooting
 
 ---
@@ -139,7 +190,8 @@ Purpose:
 - Removes duplicate orders
 - Removes invalid records
 - Standardizes product names
-- Applies business validation rules
+- Applies business rules
+- Cleanses source data
 
 ---
 
@@ -166,186 +218,182 @@ Metrics include:
 
 ---
 
-# Project Structure
-
-```text
-ecommerce_analytics/
-│
-├── data/
-│   └── orders.csv
-│
-├── sql/
-│   ├── stg_orders.sql
-│   ├── sales_summary.sql
-│   │
-│   └── data_quality/
-│       ├── duplicate_orders.sql
-│       ├── missing_order_dates.sql
-│       ├── negative_revenue.sql
-│       ├── missing_store_names.sql
-│       ├── check_email_format.sql
-│       └── check_product_name_variations.sql
-│
-├── generate_orders_dataset.py
-├── data_profile.py
-├── load_raw.py
-├── run_staging.py
-├── run_mart.py
-├── run_data_quality.py
-├── run_validation.py
-├── run_pipeline.py
-│
-└── README.md
-```
-
----
-
-# Pipeline Workflow
-
-The pipeline executes in the following order:
-
-```text
-1. Generate Dataset
-2. Load Raw Data
-3. Run Staging Transformations
-4. Build Analytics Mart
-5. Execute Data Quality Checks
-6. Execute Validation Checks
-```
-
-Pipeline orchestration is handled by:
-
-```python
-run_pipeline.py
-```
-
-This script coordinates execution and handles failures using try/except logic.
-
----
-
 # Data Quality Framework
 
-The solution includes automated data quality checks executed before data is consumed by downstream analytics.
+Automated data quality checks are executed before data is consumed by downstream analytics.
 
-## Duplicate Orders
+Checks include:
 
-Purpose:
+### Duplicate Orders
 
 Detect duplicate transactions.
 
-Query:
-
-```sql
-duplicate_orders.sql
-```
-
----
-
-## Missing Order Dates
-
-Purpose:
+### Missing Order Dates
 
 Identify records with missing dates.
 
-Query:
+### Negative Revenue
 
-```sql
-missing_order_dates.sql
-```
+Detect invalid revenue values.
 
----
-
-## Negative Revenue
-
-Purpose:
-
-Identify invalid revenue records.
-
-Query:
-
-```sql
-negative_revenue.sql
-```
-
----
-
-## Missing Store Names
-
-Purpose:
+### Missing Store Names
 
 Identify incomplete store information.
 
-Query:
+### Invalid Email Addresses
 
-```sql
-missing_store_names.sql
-```
+Validate email formatting.
 
----
-
-## Invalid Email Addresses
-
-Purpose:
-
-Identify malformed customer emails.
-
-Query:
-
-```sql
-check_email_format.sql
-```
-
----
-
-## Product Name Variations
-
-Purpose:
+### Product Name Variations
 
 Detect inconsistent product naming.
-
-Query:
-
-```sql
-check_product_name_variations.sql
-```
 
 ---
 
 # Validation Framework
 
-The validation layer ensures data integrity throughout the pipeline.
+The validation layer ensures integrity across the entire pipeline.
 
-## Revenue Reconciliation
+### Revenue Reconciliation
 
-Validates that revenue remains consistent across transformations.
-
-Validation compares:
+Validates revenue consistency across:
 
 - Raw Layer
 - Staging Layer
 - Mart Layer
 
----
+### Row Count Validation
 
-## Row Count Validation
+Validates expected row count reductions after cleansing.
 
-Validates expected row count reductions due to cleaning operations.
-
-Validation compares:
-
-- Raw Layer
-- Staging Layer
-- Mart Layer
-
----
-
-## Data Cleanup Validation
+### Data Cleanup Validation
 
 Confirms successful removal of:
 
 - Duplicate records
 - Missing dates
 - Negative revenue
+
+---
+
+# AI Analytics Chatbot
+
+The platform includes a fully functional AI-powered analytics chatbot.
+
+Users can ask business questions in plain English without writing SQL.
+
+## Architecture
+
+```text
+User Question
+      │
+      ▼
+  Streamlit UI
+      │
+      ▼
+   OpenAI GPT
+      │
+      ▼
+ SQL Generation
+      │
+      ▼
+    BigQuery
+      │
+      ▼
+ Query Results
+      │
+      ▼
+   OpenAI GPT
+      │
+      ▼
+Natural Language Response
+      │
+      ▼
+  Streamlit UI
+```
+
+## Example Questions
+
+- What was the total revenue last month?
+- Which store generated the highest revenue?
+- Show the top 5 products by revenue.
+- Which category sold the most products?
+- What is the average order value?
+
+## Capabilities
+
+- Natural language understanding
+- Dynamic SQL generation
+- BigQuery execution
+- Business-friendly responses
+- Self-service analytics
+
+---
+
+# Streamlit Cloud Deployment
+
+The AI Analytics Chatbot is deployed on Streamlit Cloud.
+
+Deployment features:
+
+- Live cloud-hosted application
+- OpenAI API integration
+- BigQuery integration
+- Secure credential management
+- Interactive user experience
+
+Live Application:
+
+https://ecommerce-analytics-platform-8j4dsvxex64fbefjtascx4.streamlit.app/
+
+---
+
+# Project Structure
+
+```text
+ecommerce-analytics-platform/
+│
+├── chatbot/
+│   ├── app.py
+│   ├── bigquery_service.py
+│   ├── config.py
+│   ├── response_generator.py
+│   ├── schema.py
+│   ├── sql_generator.py
+│   └── tests/
+│
+├── data/
+│   ├── generated/
+│   │   └── orders_dataset.csv
+│   └── raw/
+│
+├── docs/
+│   └── source_dataset_design.md
+│
+├── pipelines/
+│   ├── load_raw.py
+│   ├── run_staging.py
+│   ├── run_mart.py
+│   ├── run_data_quality.py
+│   ├── run_validation.py
+│   ├── run_pipeline.py
+│   └── test_bigquery_connection.py
+│
+├── scripts/
+│   ├── generate_orders_dataset.py
+│   └── data_profile.py
+│
+├── sql/
+│   ├── stg_orders.sql
+│   ├── sales_summary.sql
+│   ├── validation_queries.sql
+│   └── data_quality/
+│
+├── .env.example
+├── requirements.txt
+├── README.md
+└── .gitignore
+```
 
 ---
 
@@ -383,184 +431,52 @@ Revenue reconciliation passed successfully.
 
 ---
 
-# Orchestration
+# How To Run
 
-The pipeline can be executed end-to-end using:
+## Install Dependencies
 
 ```bash
-python run_pipeline.py
+pip install -r requirements.txt
 ```
 
-Execution sequence:
+## Generate Dataset
 
-```text
-load_raw.py
-      ↓
-run_staging.py
-      ↓
-run_mart.py
-      ↓
-run_data_quality.py
-      ↓
-run_validation.py
+```bash
+python scripts/generate_orders_dataset.py
 ```
 
----
+## Run Full Pipeline
 
-# AI Chatbot Architecture (Planned)
-
-The next phase of the solution enables natural language querying of warehouse data.
-
-Example questions:
-
-- How did we perform last month?
-- Which store generated the highest revenue?
-- Which products are selling the most?
-
-Proposed architecture:
-
-```text
-User Question
-       │
-       ▼
-      LLM
-       │
-       ▼
- SQL Generation
-       │
-       ▼
-   BigQuery
-       │
-       ▼
- Query Results
-       │
-       ▼
- Natural Language Response
+```bash
+python pipelines/run_pipeline.py
 ```
 
-This enables self-service analytics for non-technical users.
+## Launch Chatbot
+
+```bash
+streamlit run chatbot/app.py
+```
 
 ---
 
 # Production Considerations
 
-For a production deployment, the following enhancements would be implemented:
-
-## Workflow Orchestration
-
-Current:
-
-```text
-run_pipeline.py
-```
-
-Production:
-
-```text
-Apache Airflow
-or
-Cloud Composer (GCP)
-```
-
----
-
-## Monitoring
-
-- Pipeline execution monitoring
-- Data quality alerts
-- Failure notifications
-
----
-
-## CI/CD
-
-- GitHub Actions
-- Automated testing
-- Automated deployment
-
----
-
-## Infrastructure as Code
-
-- Terraform
-- Environment provisioning
-- Resource management
-
----
-
-## Incremental Loading
-
-Instead of full refreshes:
-
-- Daily incremental ingestion
-- Partitioned tables
-- Reduced processing cost
-
----
-
-# How to Run
-
-## Generate Dataset
-
-```bash
-python generate_orders_dataset.py
-```
-
-## Load Raw Data
-
-```bash
-python load_raw.py
-```
-
-## Build Staging Layer
-
-```bash
-python run_staging.py
-```
-
-## Build Mart Layer
-
-```bash
-python run_mart.py
-```
-
-## Run Data Quality Checks
-
-```bash
-python run_data_quality.py
-```
-
-## Run Validation Checks
-
-```bash
-python run_validation.py
-```
-
-## Run Entire Pipeline
-
-```bash
-python run_pipeline.py
-```
-
----
-
-# Future Enhancements
+Potential enhancements for production deployment:
 
 - Apache Airflow / Cloud Composer
-- dbt-based transformations
+- Incremental loading
+- Partitioned BigQuery tables
+- Monitoring and alerting
+- CI/CD pipelines
+- Infrastructure as Code (Terraform)
+- dbt transformations
 - Great Expectations
-- Data Catalog
-- Automated alerting
-- Infrastructure as Code
-- Incremental processing
-- AI chatbot deployment
-- Dashboard integration
-- Real-time ingestion
+- Data Catalog integration
 
 ---
 
 # Conclusion
 
-This project demonstrates a complete analytics engineering workflow, including data generation, ingestion, transformation, quality validation, business reporting, and preparation for AI-powered analytics.
+This project demonstrates a complete analytics engineering workflow, covering data generation, ingestion, transformation, data quality management, validation, warehouse modeling, AI-powered analytics, and cloud deployment.
 
-The solution follows industry-standard data engineering practices and can be extended into a production-grade analytics platform with minimal architectural changes.
+The solution enables self-service analytics through natural language interactions while maintaining strong data quality and governance practices. The architecture follows modern data engineering principles and can be extended into a production-grade analytics platform with minimal architectural changes.
